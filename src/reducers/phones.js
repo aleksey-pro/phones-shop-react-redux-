@@ -1,6 +1,10 @@
 import * as R from "ramda";
 
-import { FETCH_PHONES_SUCCESS } from "actions/actionTypes";
+import {
+  FETCH_PHONES_SUCCESS,
+  LOAD_MORE_PHONES_SUCCESS
+} from "actions/actionTypes";
+
 const initialState = {};
 
 export default (state = initialState, { type, payload }) => {
@@ -10,6 +14,9 @@ export default (state = initialState, { type, payload }) => {
       // объектов в полученных данных получаем объект с ключами, где id -
       // ключ в полученном объекте
       return R.merge(state, newValues);
+    case LOAD_MORE_PHONES_SUCCESS:
+      const moreValues = R.indexBy(R.prop("id"), payload);
+      return R.merge(state, moreValues);
     default:
       return state;
   }

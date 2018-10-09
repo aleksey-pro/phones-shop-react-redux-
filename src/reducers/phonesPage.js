@@ -1,6 +1,9 @@
 // Редюсер хранит все полученные с сервера id телефонов, незаваимио нужны они нам или нет
 import * as R from "ramda";
-import { FETCH_PHONES_SUCCESS } from "actions/actionTypes";
+import {
+  FETCH_PHONES_SUCCESS,
+  LOAD_MORE_PHONES_SUCCESS
+} from "actions/actionTypes";
 
 const initialState = {
   ids: []
@@ -13,6 +16,12 @@ export default (state = initialState, { type, payload }) => {
       return R.merge(state, {
         ids: R.pluck("id", payload) // вытаскивает из payload айдишники и положит в масив
       });
+    case LOAD_MORE_PHONES_SUCCESS:
+      const ids = R.pluck("id", payload);
+      return R.merge(state, {
+        ids: R.concat(ids, state.ids)
+      });
+
     default:
       return state;
   }

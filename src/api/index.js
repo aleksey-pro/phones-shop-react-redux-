@@ -6,3 +6,9 @@ export const fetchPhones = async () => {
     // reject("error"); так можно проверить выводится ли ошибка
   });
 };
+
+export const loadMorePhones = async ({ offset }) => {
+  return new Promise(resolve => {
+    resolve(phones);
+  });
+};
