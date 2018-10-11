@@ -3,15 +3,24 @@ import { connect } from "react-redux";
 import * as R from "ramda";
 import { Link } from "react-router";
 
-import { fetchPhones, loadMorePhones } from "actions";
+import {
+  fetchPhones,
+  loadMorePhones,
+  addPhoneToBasket,
+  fetchCategories
+} from "actions";
 import { getPhones } from "selectors";
 
 class Phones extends Component {
   componentDidMount() {
     this.props.fetchPhones();
+    this.props.fetchCategories();
   }
 
+  addPhoneToBasket() {}
+
   renderPhone(phone, index) {
+    const { addPhoneToBasket } = this.props;
     const shortDescription = `${R.take(60, phone.description)}...`;
 
     return (
@@ -25,7 +34,12 @@ class Phones extends Component {
             </h4>
             <p>{shortDescription}</p>
             <p className="itemButton">
-              <button className="btn btn-primary">Buy Now!</button>
+              <button
+                className="btn btn-primary"
+                onClick={() => addPhoneToBasket(phone.id)}
+              >
+                Buy Now!
+              </button>
               <Link to={`/phones/${phone.id}`} className="btn btn-default">
                 More info
               </Link>
@@ -57,14 +71,17 @@ class Phones extends Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  phones: getPhones(state)
+// ownProps виден без withRouter так как мы используем в рутовом компоненте,
+// все вложенные компоненты - с withRouter
+const mapStateToProps = (state, ownProps) => ({
+  phones: getPhones(state, ownProps)
 });
 
 const mapDispatchToProps = {
   fetchPhones,
-  loadMorePhones
+  loadMorePhones,
+  addPhoneToBasket,
+  fetchCategories
 };
 
 export default connect(
