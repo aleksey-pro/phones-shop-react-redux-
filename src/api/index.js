@@ -20,7 +20,7 @@ export const fetchPhones = async () => {
   // return body.phones;
 
   //prettier-ignore
-  await fetch("http://www.mocky.io/v2/5bbf2d3f34000067006fce1d")
+  await fetch("https://www.mocky.io/v2/5bbf2d3f34000067006fce1d")
     .then(function(res) {
       res.json()
     .catch(function(err) {
